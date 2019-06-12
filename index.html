@@ -229,7 +229,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/10/3.TCP协议详解/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/10/TCP协议详解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="h3m">
@@ -248,7 +248,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/06/10/3.TCP协议详解/" itemprop="url">TCP 协议详解</a></h1>
+                <a class="post-title-link" href="/2019/06/10/TCP协议详解/" itemprop="url">TCP 协议详解</a></h1>
         
 
         <div class="post-meta">
@@ -321,92 +321,15 @@
 
       
         
-          
-            <h1 id="TCP协议详解"><a href="#TCP协议详解" class="headerlink" title="TCP协议详解"></a>TCP协议详解</h1><h2 id="TCP服务的特点"><a href="#TCP服务的特点" class="headerlink" title="TCP服务的特点"></a>TCP服务的特点</h2><p>&nbsp;&nbsp;&nbsp;&nbsp; TCP相对UDP的特点是:面向连接,字节流和可靠传输</p>
+          <h1 id="TCP协议详解"><a href="#TCP协议详解" class="headerlink" title="TCP协议详解"></a>TCP协议详解</h1><h2 id="TCP服务的特点"><a href="#TCP服务的特点" class="headerlink" title="TCP服务的特点"></a>TCP服务的特点</h2><p>&nbsp;&nbsp;&nbsp;&nbsp; TCP相对UDP的特点是:面向连接,字节流和可靠传输</p>
 <p>TCP通信双方要建立连接(这种连接是一对一的,基于广播或多播的应用程序不能使用TCP),双方都必须为该连接分配必要的内核资源,以管理连接的状态和连接上的数据.TCP的连接是全双工的.即双方数据读写可以通过一个连接进行.通信双方都必须断开连接以释放系统资源.</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;字节流服务和数据报服务的区别:</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;实际编程中: 通信双方是否必须执行相同次数的读写操作(表现形式的区别)<br>&nbsp;&nbsp;&nbsp;&nbsp;发送:TCP执行写操作时,现将这些数据放入发送缓冲区,当真正发送数据时,发送缓冲区的数据可能被封装成一个或多个TCP报文发出.因此TCP发送的报文个数和程序执行的写操作次数没有固定关系</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;接受:接受端接收到一个或多个TCP报文后,TCP将它们携带应用程序数据按照TCP报文段的序号依次放入TCP接收缓冲区中,并通知应用程序读数据,接受程序可以一次读出,也可以多次读出,所以读次数和接收报文段个数没有固定关系</p>
-<p>UDP则是发送每次写,UDP将其封装成一个UDP数据报发出,接受端针对每个数据报执行读操作</p>
-<p><img src="https://i.loli.net/2019/02/09/5c5ece4e23bb0.png" alt="Screenshot_20190209_205750.png"></p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;TCP传输是可靠的: 首先,TCP采用发送应答机制,每个发送的报文段都必须得到接收放的应答才算传输成功,其次,TCP采用超时重传机制,发送端在发送一个TCP报文段之后启动定时器,如果在定时时间内未收到应答,它将重新发送该报文段.最后TCP报文段最终是以IP数据报发送的,IP数据报到接受端可能是乱序的,TCP重新整理再交付给应用层</p>
-<h2 id="TCP头部结构"><a href="#TCP头部结构" class="headerlink" title="TCP头部结构"></a>TCP头部结构</h2><h3 id="TCP固定头部结构"><a href="#TCP固定头部结构" class="headerlink" title="TCP固定头部结构"></a>TCP固定头部结构</h3><p><img src="https://i.loli.net/2019/02/09/5c5ecfb58463b.png" alt="Screenshot_20190209_210352.png"></p>
-<ul>
-<li>16位端口号:告知从哪里来(源端口)到哪里去(目的端口)</li>
-<li>32位序号:一次TCP通信(连接到断开)会初始化一个随机值ISN, 在该传输方向上u后续TCP报文段中序号值是ISN加上报文段所携带数据的第一个字节在整个字节流中的偏移.<br>例如,某个TCP报文段传送的数据是字节流中的1025-2048字节,报文段序号就是ISN+1025</li>
-<li>32位确认号:用作对另一方发来的TCP报文段的相应,其值是收到的TCP报文段序号值 + 1</li>
-<li>4位头部长度:标识该TCP头部有多少32bit(4字节),最大是 15 * 4 = 60 字节</li>
-<li>6位标志位</li>
-</ul>
-<p>(1)URG:紧急指针是否有效<br>(2)ACK:确认号是否有效<br>(3)PSU:提示接受端应用程序立即从TCP缓冲区读走数据<br>(4)RST:复位,要求对方重新连接<br>(5)SYN:请求建立连接,称为同步报文段<br>(6)FIN:通知对方本端要关闭连接,称为结束报文段</p>
-<ul>
-<li>16位窗口大小:TCP控制流量的一个手段,这里的窗口是指接受通告窗口,它告诉对方本端TCP缓冲区还能容纳多少字节的数据</li>
-<li>16位校验和:可靠传输的重要保障</li>
-<li>16位禁止指针:正的偏移量,他和序号字段相加表示一个紧急数据的下一字节序号</li>
-</ul>
-<h3 id="TCP头部选项"><a href="#TCP头部选项" class="headerlink" title="TCP头部选项"></a>TCP头部选项</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;头部的最后选项字段是可变长的可选信息.最多包含40字节,因为TCP最长60字节,20固定部分</p>
-<p><img src="https://i.loli.net/2019/02/09/5c5ed74b94f4a.png" alt="Screenshot_20190209_213615.png"></p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;kind字段说明类型,有的TCP没有后两项<br>常见的TCP选项有七种</p>
-<p><img src="https://i.loli.net/2019/02/10/5c5f85153231f.png" alt="Screenshot_20190210_095743.png"></p>
-<ul>
-<li>kind = 0 选项表结束选项</li>
-<li>kind = 1 空操作,一般用于填充总长度为4字节整数倍</li>
-<li>kind = 2 最大报文段长度(MSS)选项, MSS 通常设置为为 MTU - 40(20字节TCP头部,20字节IP头部)</li>
-<li>Kind = 3 窗口扩大因子</li>
-<li>kind = 4 选择性确认选项(SACK)</li>
-<li>kind = 5</li>
-<li>kind = 8 时间戳</li>
-</ul>
-<h3 id="使用-tcpdump-观察TCP头部信息"><a href="#使用-tcpdump-观察TCP头部信息" class="headerlink" title="使用 tcpdump 观察TCP头部信息"></a>使用 tcpdump 观察TCP头部信息</h3><p><img src="https://i.loli.net/2019/02/10/5c5f8c7337cb6.png" alt="Screenshot_20190210_102909.png"></p>
-<ul>
-<li>Flags[S] 表示包含SYN标志,是一个同步报文段,标志首字母显示在Flag 后面</li>
-<li>seq 序号值</li>
-<li>win 通告窗口的大小</li>
-<li>option 是TCP选项</li>
-</ul>
-<p>从21字节开始分析TCP头部(一一对应就行了)</p>
-<h2 id="TCP连接的建立和关闭"><a href="#TCP连接的建立和关闭" class="headerlink" title="TCP连接的建立和关闭"></a>TCP连接的建立和关闭</h2><p><img src="https://i.loli.net/2019/02/10/5c5f8e7ae89d6.png" alt="Screenshot_20190210_103744.png"></p>
-<ul>
-<li>第一个TCP 报文包含SYN标志,它是一个同步报文,即客户端向服务器发起连接请求,该报文包含一个ISN值的序号</li>
-<li>第二个TCP 报文也是同步报文,表示服务器需同意客户端的连接请求,发送自己的SIN号,ack为对方的ISN 加一</li>
-<li>第三个TCP报文是对第二个同步报文的确认,至此TCP连接建立起来了</li>
-</ul>
-<p>成为三次握手<br>后面断开是四次挥手</p>
-<h3 id="半关闭状态"><a href="#半关闭状态" class="headerlink" title="半关闭状态"></a>半关闭状态</h3><p><img src="https://i.loli.net/2019/02/10/5c5f91cff1256.png" alt="Screenshot_20190210_105159.png"></p>
-<p>TCP连接是全双工的,允许两个方向的数据传输被独立关闭,通信一端发送结束报文给对方,告诉对方本端已经完成了数据的传输.TCP连接的这种状态成为半关闭</p>
-<p>服务器和客户端程序判断对方是否已经关闭连接的方法是:read系统调用返回0</p>
-<h3 id="超时连接"><a href="#超时连接" class="headerlink" title="超时连接"></a>超时连接</h3><h2 id="TCP状态转移-重点"><a href="#TCP状态转移-重点" class="headerlink" title="TCP状态转移(重点)"></a>TCP状态转移(重点)</h2><p><img src="https://i.loli.net/2019/02/10/5c5fe50906df3.png" alt="Screenshot_20190210_164706.png"></p>
-<p>虚线表示服务器端的状态转移,实线表示客户端的状态转移</p>
-<h3 id="TCP状态转移总图"><a href="#TCP状态转移总图" class="headerlink" title="TCP状态转移总图"></a>TCP状态转移总图</h3><p>服务器</p>
-<ul>
-<li>服务器通过listen系统调用进入LISTEN状态,被动等待客户端连接,就是被动打开</li>
-<li>监听到连接请求(收到同步报文),就将该连接放入内核等待队列,并向客户端发送带SYN标志的确认报文段,此时处于SYN_RCVD状态</li>
-<li>收到客户端的ACK 处于ESTABLISHED状态,这个状态是双方都能进行双向数据传输的状态</li>
-<li>客户端主动关闭连接(通过close 或 shutdown 系统调用向服务器发送结束报文段),服务器返回确认报文进入CLOSE_WAIT状态,这个状态的含义是:等待服务器应用程序关闭连接.服务器检测到客户端关闭连接后,也会给客户端发送一个结束报文来关闭连接,处于LAST_ACK状态.一旦确认,连接彻底关闭.</li>
-</ul>
-<p>客户端</p>
-<ul>
-<li>客户端通过connect系统调用主动与服务器建立连接,connect系统调用首先给服务器发送一个同步报文段,处于SYN_SENT状态. connect系统调用可能失败<br>(1) 端口不存在,或者该端口仍被处于处于TIME_WAIT状态的连接占用<br>(2) 端口存在,但在超时时间内未受到服务器的确认报文段</li>
-</ul>
-<p>如果调用失败处于CLOSED状态,如果客户端成功收到服务器的同步报文和确认,则connect调用返回成功,迁移至ESTABLISHED状态</p>
-<ul>
-<li>客户端主动关闭时,向服务器发送一个结束报文,同时进入FIN_WAIT_1状态</li>
-<li>若客户端收到服务器专门用于确认的确认报文段,进入CIN_WAIT_2状态,服务器处于CLOSE_WAIT状态,此时是半关闭状态</li>
-<li>如果服务器也关闭连接,客户端确认进入TIME_WAIT状态</li>
-</ul>
-<p>还有一些转换:比如FIN_WAIT_1 直接转变成TIME_WAIT 状态 和同时关闭同时打开<br><img src="https://i.loli.net/2019/02/10/5c5fedf7a3885.png" alt="Screenshot_20190210_172508.png"></p>
-<h3 id="TIME-WAIT-状态"><a href="#TIME-WAIT-状态" class="headerlink" title="TIME_WAIT 状态"></a>TIME_WAIT 状态</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;客户端收到服务器的结束报文之后,并没有直接进入CLOSED状态,而是转移到TIME_WAIT状态.要等待2MSL(报文最大生存时间),才能完全关闭.原因有两点</p>
-<p>(1)可靠地终止TCP连接<br>&nbsp;&nbsp;&nbsp;&nbsp;假设图3-9中用于确认报文段6的报文段7丢失,服务器将重发结束报文段,因此客户端要停留在某个状态以处理重复收到的结束报文段,否则,客户端将以复位保温来回应服务器,服务器认为这是一个错误</p>
-<p>(2)保证迟来的TCP报文段有足够的时间被识别丢弃<br>&nbsp;&nbsp;&nbsp;&nbsp;在Linux系统中,一个TCP端口不能重复被打开,当一个TCP连接处于TIME_WAIT状态时,我们将无法使用该端口建立新连接.</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;如果没有这个状态,应用程序能立即建立和刚刚关闭的相似连接,可能会收到属于原来连接的数据. TCP报文段的最大生存时间是MSL, 坚持2MSL确保网络上两个方向上的未被接受的TCP报文段都已经丢失.</p>
-<p>有时候希望<strong>避免TIME_WAIT状态</strong>, 因为程序退出后,我们希望能立即重启.</p>
-<p>客户端一般不用担心重启问题,因为客户端一般使用系统自动分配的临时端口号来建立连接<br>如果是服务器,可以通过socket选项SO_REUSEADDR来强制进程立即使用处于TIME_WAIT状态的连接占用的端口</p>
-<h2 id="复位报文段"><a href="#复位报文段" class="headerlink" title="复位报文段"></a>复位报文段</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;特殊情况下,TCP连接的一端会向另一端发送携带RST标志的报文段,即复位报文段,以通知对方关闭连接或重新建立连接,产生复位报文段的三种情况</p>
-<h3 id="访问不存在的端口"><a href="#访问不存在的端口" class="headerlink" title="访问不存在的端口"></a>访问不存在的端口</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;当客户端访问不存在的端口时,目标主机将给它发送一个复位报文段.</p>
-<h3 id="异常终止连接"><a href="#异常终止连接" class="headerlink" title="异常终止连接"></a>异常终止连接</h3><p>&nbsp;&nbsp;&nbsp;&nbsp;异常终止的方法:给对方发送一个复位报文段,一旦发送了复位报文段,发送端所有队列等待发送的数据都被丢弃.<br>应用程序可以使用socket选项 SO_LINGER 来发送复位报文段,以异常终止一个连接</p>
-<h3 id="处理半打开连接"><a href="#处理半打开连接" class="headerlink" title="处理半打开连接"></a>处理半打开连接</h3><p>考虑下面情况:服务器(或客户端)关闭或异常终止了连接,而对方没有接收到结束报文段,此时客户端(服务器)还保持这原来的连接. 这种状态处于半打开连接,如果客户端(服务器)向半打开连接写入数据,则对方回复一个复位报文段.</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/06/10/TCP协议详解/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
