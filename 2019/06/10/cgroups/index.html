@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Linux，虚拟化,">
+  <meta name="keywords" content="虚拟化,">
 
 
 
@@ -80,16 +80,16 @@
 
 
 <meta name="description" content="Cgroups 概念Cgroups 是 control groups 的缩写，是 Linux 内核提供的一种可以限制，记录，隔离进程组所使用的物理资源的机制。 Cgroups 提供了以下功能:  限制进程组可以使用的资源数量 进程组的优先级控制 记录进程组所使用的资源数量 进程组的隔离 进程组的控制">
-<meta name="keywords" content="Linux，虚拟化">
+<meta name="keywords" content="虚拟化">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TCP 协议详解">
+<meta property="og:title" content="Cgroups">
 <meta property="og:url" content="http://yoursite.com/2019/06/10/cgroups/index.html">
 <meta property="og:site_name" content="Channels">
 <meta property="og:description" content="Cgroups 概念Cgroups 是 control groups 的缩写，是 Linux 内核提供的一种可以限制，记录，隔离进程组所使用的物理资源的机制。 Cgroups 提供了以下功能:  限制进程组可以使用的资源数量 进程组的优先级控制 记录进程组所使用的资源数量 进程组的隔离 进程组的控制">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-12T08:57:50.562Z">
+<meta property="og:updated_time" content="2019-06-13T09:32:06.102Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="TCP 协议详解">
+<meta name="twitter:title" content="Cgroups">
 <meta name="twitter:description" content="Cgroups 概念Cgroups 是 control groups 的缩写，是 Linux 内核提供的一种可以限制，记录，隔离进程组所使用的物理资源的机制。 Cgroups 提供了以下功能:  限制进程组可以使用的资源数量 进程组的优先级控制 记录进程组所使用的资源数量 进程组的隔离 进程组的控制">
 
 
@@ -126,7 +126,7 @@
 
 
 
-  <title>TCP 协议详解 | Channels</title>
+  <title>Cgroups | Channels</title>
   
 
 
@@ -250,7 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">TCP 协议详解</h1>
+          <h1 class="post-title" itemprop="name headline">Cgroups</h1>
         
 
         <div class="post-meta">
@@ -332,6 +332,52 @@
 <li>进程组的控制</li>
 </ol>
 <a id="more"></a>
+
+<p>Cgroups 相关概念及其关系</p>
+<ol>
+<li>任务(task): 在 cgroup 中，任务就是一个系统的进程</li>
+<li>控制族群(control group): Cgroups 中的资源控制都是以控制族群为实现单位，一个进程可以加入控制族群，也可以从一个控制族群迁移到另一个控制族群，一个进程组的进程可以使用 cgroups 以控制族群为单位分配的资源</li>
+<li>层级(hierarchy): 控制族群可以组织称 hierarchy 行是，即一颗控制族群树</li>
+<li>子系统(subsystem): 一个子系统就是一个资源控制器，比如 CPU 子系统就是控制 CPU 时间分配的一个控制器。子系统必须附加到一个层级上才能起作用，这个层级上的所有控制族群都受这个子系统的控制。</li>
+</ol>
+<p>相互关系</p>
+<ol>
+<li>在系统创建新层级时，该系统中所有任务都是那个层级默认的 cgroup (root cgroup) 的初始成员</li>
+<li>一个子系统最多只能附加到一个层级</li>
+<li>一个层级可以附加多个子系统</li>
+<li>一个任务可以是多个 cgroup 的成员，但是这些 cgroup 必须在不同层级</li>
+<li>系统中的进程创建子进程时，该子进程自动称为父进程所在 cgroup 的成员，然后可以根据需要移动到不同的 cgroup 中。</li>
+</ol>
+<h2 id="Cgroups-子系统"><a href="#Cgroups-子系统" class="headerlink" title="Cgroups 子系统"></a>Cgroups 子系统</h2><ul>
+<li>blkio: 这个子系统为块设备设定输入/输出限制，比如物理设备（磁盘，固态硬盘，USB 等）</li>
+<li>cpu: 这个子系统使用调度程序提供对 CPU 的 cgroup 任务访问。</li>
+<li>cpuacct：这个子系统自动生成 cgroup 中任务所使用的 CPU 报告。</li>
+<li>cpuset：这个子系统为 cgroup 中的任务分配独立 CPU（在多核系统）和内存节点。</li>
+<li>devices：这个子系统可允许或者拒绝 cgroup 中的任务访问设备。</li>
+<li>freezer：这个子系统挂起或者恢复 cgroup 中的任务。</li>
+<li>memory：这个子系统设定 cgroup 中任务使用的内存限制，并自动生成由那些任务使用的内存资源报告。</li>
+<li>net_cls：这个子系统使用等级识别符（classid）标记网络数据包，可允许 Linux 流量控制程序（tc）识别从具体 cgroup 中生成的数据包。</li>
+<li>ns：名称空间子系统。</li>
+</ul>
+<h2 id="Groups-的实现"><a href="#Groups-的实现" class="headerlink" title="Groups 的实现"></a>Groups 的实现</h2><h3 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h3><p>在 Linux 中，管理进程的数据结构是 task_struct<br>每个进程描述符中有一个指针指向了 css_set(cgroups subsysetem set)，指向某一个 css_set 的进程会被加入当前 css_ser 的进程链表中，一个进程只能隶属于 css_set，一个 css_set 可以包含多个进程，隶属于同一 css_set 的进程收到同一个 css_set 所关联的资源限制。 </p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*Control Group info protected by css_set_lock */</span></span><br><span class="line"><span class="comment">/* cg_list protected by css_set_lock and tsk-&gt;alloc_lock */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">ifdef</span> CONFIG_CGROUPS</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">css_set</span> *<span class="title">cgroups</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">cg_list</span>;</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<p>css_set 的结构</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">css_set</span> &#123;</span></span><br><span class="line"><span class="keyword">atomic_t</span> refcount; <span class="comment">//该 css_set 的引用计数(有多少进程指向该 css_set)</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">hlist_node</span> <span class="title">hlist</span>;</span> <span class="comment">//是嵌入的hlist_node，用于把所有css_set组织成一个hash表，这样内核可以快速查找特定的css_set</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">tasks</span>;</span> <span class="comment">//指向所有连到该 css_set 进程连城的链表</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">cg_links</span>;</span><span class="comment">//指向一个由 cg_group_link 连成的链表</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cgroup_subsys_state</span> *<span class="title">subsys</span>[<span class="title">CGROUP_SUBSYS_COUNT</span>];</span> <span class="comment">//一个指针数组，存储一组指向 cgroups_subsys_state 的指针，存储了进程与一个特定子系统的相关信息，通过这个指针，进程可以获得相应的 cgroup 控制信息</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">rcu_head</span> <span class="title">rcu_head</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>cgroups_subsys_state 的结构</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cgroup_subsys_state</span> &#123;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cgroup</span> *<span class="title">cgroup</span>;</span>  <span class="comment">//进程所属的 cgroup</span></span><br><span class="line"><span class="keyword">atomic_t</span> refcnt;</span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">long</span> flags;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">css_id</span> *<span class="title">id</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>通过这个结构，进程就可以和 cgroup 连起来了：</p>
+<p>task_struct-&gt;css_set-&gt;cgroup_subsys_state-&gt;cgroup</p>
+<p>cgroup 的结构</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cgroup</span> &#123;</span></span><br><span class="line"><span class="keyword">unsigned</span> <span class="keyword">long</span> flags;</span><br><span class="line"><span class="keyword">atomic_t</span> count;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">sibling</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">children</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cgroup</span> *<span class="title">parent</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">dentry</span> *<span class="title">dentry</span>;</span></span><br><span class="line"><span class="comment">// 存储一组指向 cgroups_subsys_state 的指针</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cgroup_subsys_state</span> *<span class="title">subsys</span>[<span class="title">CGROUP_SUBSYS_COUNT</span>];</span></span><br><span class="line"><span class="comment">//root 指向 cgroup 所造层级对应的结构体</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cgroupfs_root</span> *<span class="title">root</span>;</span></span><br><span class="line"><span class="comment">// top_cgroup 指向所在层级的跟 cgroup</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cgroup</span> *<span class="title">top_cgroup</span>;</span></span><br><span class="line"><span class="comment">//指向一个由 cg_group_link 连接器阿里的链表</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">css_sets</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">release_list</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">pidlists</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">mutex</span> <span class="title">pidlist_mutex</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">rcu_head</span> <span class="title">rcu_head</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">event_list</span>;</span></span><br><span class="line"><span class="keyword">spinlock_t</span> event_list_lock;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>cg_group_link  的结构</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cg_cgroup_link</span> &#123;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">cgrp_link_list</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">cgroup</span> *<span class="title">cgrp</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">list_head</span> <span class="title">cg_link_list</span>;</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">css_set</span> *<span class="title">cg</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>由此进程和 cgroups 的关系</p>
+
       
     </div>
     
@@ -348,7 +394,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Linux，虚拟化/" rel="tag"># Linux，虚拟化</a>
+            <a href="/tags/虚拟化/" rel="tag"># 虚拟化</a>
           
         </div>
       
@@ -505,7 +551,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cgroups-概念"><span class="nav-number">1.</span> <span class="nav-text">Cgroups 概念</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cgroups-概念"><span class="nav-number">1.</span> <span class="nav-text">Cgroups 概念</span></a></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#Cgroups-子系统"><span class="nav-number"></span> <span class="nav-text">Cgroups 子系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Groups-的实现"><span class="nav-number"></span> <span class="nav-text">Groups 的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据结构"><span class="nav-number">1.</span> <span class="nav-text">数据结构</span></a></li></ol></li></div>
             
 
           </div>
