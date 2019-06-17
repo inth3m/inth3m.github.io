@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2019/06/14/5d037e662f2e888917.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/14/5d037e54a478f25463.png">
-<meta property="og:updated_time" content="2019-06-14T11:46:29.475Z">
+<meta property="og:updated_time" content="2019-06-14T11:51:40.748Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cgroups">
 <meta name="twitter:description" content="Cgroups 概念Cgroups 是 control groups 的缩写，是 Linux 内核提供的一种可以限制，记录，隔离进程组所使用的物理资源的机制。 Cgroups 提供了以下功能:  限制进程组可以使用的资源数量 进程组的优先级控制 记录进程组所使用的资源数量 进程组的隔离 进程组的控制">
@@ -422,7 +422,7 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -t cgroup -o remount,cpu,cpuset,memory cpu_and_mem /cgroup/cpu_and_mem</span><br></pre></td></tr></table></figure>
 
 <h4 id="子节点和进程"><a href="#子节点和进程" class="headerlink" title="子节点和进程"></a>子节点和进程</h4><p>挂载某一 cgroup 子系统到挂载点后，就可以通过再挂载点下面建立文件夹或使用 cgcreate 命令方法创建 cgroups 层级结构中的节点</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>Docker 实现不同 Container 置键的资源隔离和控制的时候，是通过 cgroup 来完成的。通过学习 cgroup，还没有看 Docker 源码就可以大概猜出，Docker 是把同一个 Container 的进程加到同意 cgroups 子结点中，对这些进程进行资源限制实现的。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>Docker 实现不同 Container 置键的资源隔离和控制的时候，是通过 cgroup 来完成的。通过学习 cgroup，还没有看 Docker 源码就可以大概猜出，Docker 是把同一个 Container 的进程加到同一个 cgroups 子结点中，对这些进程进行资源限制实现的。</p>
 <p>子系统的实现有精力再看看吧</p>
 
       
@@ -454,18 +454,14 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/10/TCP协议详解/" rel="next" title="TCP 协议详解">
-                <i class="fa fa-chevron-left"></i> TCP 协议详解
-              </a>
-            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/06/10/HTTP详解/" rel="prev" title="HTTP 协议详解">
-                HTTP 协议详解 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/06/10/TCP协议详解/" rel="prev" title="TCP 协议详解">
+                TCP 协议详解 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -543,7 +539,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -565,7 +561,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
