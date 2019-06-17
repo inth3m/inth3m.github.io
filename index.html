@@ -229,6 +229,156 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/17/GO踩坑/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="h3m">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Channels">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/17/GO踩坑/" itemprop="url">Golang 踩坑和原理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-17T00:00:00+08:00">
+                2019-06-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Golang/" itemprop="url" rel="index">
+                    <span itemprop="name">Golang</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>在实习的时候学习了 Golang，发现这是一门用起来非常爽的语言，记录一下学习过程。</p>
+<h2 id="函数调用原理"><a href="#函数调用原理" class="headerlink" title="函数调用原理"></a>函数调用原理</h2><p>函数调用往往具有这种形式</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function(arg0,arg1)</span><br></pre></td></tr></table></figure>
+
+<h3 id="C-语言函数调用原理"><a href="#C-语言函数调用原理" class="headerlink" title="C 语言函数调用原理"></a>C 语言函数调用原理</h3><p>C 语言调用一个函数，函数的参数是通过寄存器和栈传递的，函数的返回值是通过 eax 寄存器传递的。所以 C 不支持多值返回。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/06/17/GO踩坑/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/14/TCMalloc/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -321,31 +471,15 @@
 
       
         
-          
-            <p>春招实习面试的时候，每次都被问到项目的内存池实现，其实是 STL 里的内存池，实现已经比较古老了，效率可能也不高。要学习一下现代的内存池实现了。</p>
+          <p>春招实习面试的时候，每次都被问到项目的内存池实现，其实是 STL 里的内存池，实现已经比较古老了，效率可能也不高。要学习一下现代的内存池实现了。</p>
 <p>官方文档: <a href="https://gperftools.github.io/gperftools/tcmalloc.html" target="_blank" rel="noopener">https://gperftools.github.io/gperftools/tcmalloc.html</a></p>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>通过 -ltcmalloc 链接到用用程序</p>
-<h3 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h3><p>TCmalloc 有三个层次的内存管理: ThreadCache, CentralCache, PageHeap</p>
-<p><img src="https://i.loli.net/2019/06/17/5d0748456281f92930.png" alt="20190617155903.png"></p>
-<p>分配内存和释放内存都是从前到后的顺序，在各个层次中进行尝试。<br>前面的层级分配失败，就到下一层补充；前面的释放了过多的内存，就回收到下一层次。</p>
-<p>内存分配粒度: object 和 span。</p>
-<p>span 是连续 page 的内存， object 是由 span 切成的小块</p>
-<p><img src="https://i.loli.net/2019/06/17/5d074f0ca2f6477736.png" alt="20190617162759.png"></p>
-<p>object 被划分为 8，16，32 ….字节， object 不大于 256K， 超大内存分配直接使用 span。</p>
-<h3 id="ThreadCache"><a href="#ThreadCache" class="headerlink" title="ThreadCache"></a>ThreadCache</h3><p>ThreadCache 是每个线程私有的，分配和释放都不需要加锁<br>维护一组 FreeList</p>
-<p><img src="https://i.loli.net/2019/06/17/5d0747108545364248.png" alt="20190617155354.png"></p>
-<h3 id="CentralCache"><a href="#CentralCache" class="headerlink" title="CentralCache"></a>CentralCache</h3><p>里面有多个 CentralFreeList，针对每一种 class 的object</p>
-<p>CentralFreeList 维护 span 的链表，每个 span 下面再挂一个由这个 span 分割出来的 object list。这样的好处是便于在 span 内的 object 都 free 的情况下，将 span 回收给 PageHeap。</p>
-<p><img src="https://i.loli.net/2019/06/17/5d074e5c2a7ec45404.png" alt="20190617162501.png"></p>
-<p>CentralFreeList 里面还搞了一个 cache（tc_slots_），回收回来的一批 object 先往 cache 里面塞，塞不下了再回收进 span 的 objects 链。分配 object 给 ThreadCache 时也是先尝试在 cache 里面拿，没了再去 span 里面分配。</p>
-<p>CentralFreeList 里的 span 链表其实是有两个：nonempty_和 empty_，根据 span 的 objects 链是否有空闲，放入对应链表。这样就避免了在分配时去判断 span 是否为空，只需要在由空变非空、或者由非空变空时移动一下 span。</p>
-<h3 id="PageHeap"><a href="#PageHeap" class="headerlink" title="PageHeap"></a>PageHeap</h3><p><img src="https://i.loli.net/2019/06/17/5d074edf4acf586964.png" alt="20190617162713.png"></p>
-<p>PageHeap 维护了 page 到 span 的映射关系，和空闲 span 的伙伴系统(合并相邻page)</p>
-<p>TCmalloc 使用了 RadixTree 来维护 Page 到 span 的映射关系</p>
-<p><img src="https://i.loli.net/2019/06/17/5d074d6dc594315695.png" alt="20190617162103.png"></p>
-<p>RadixTree 可以理解成压缩过的前缀树，压缩就是在一条路径上的节点都只有一个子节点，就把这个路径合并到父节点。</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/06/14/TCMalloc/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -533,153 +667,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/10/TCP协议详解/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="h3m">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Channels">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/10/TCP协议详解/" itemprop="url">TCP 协议详解</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-10T00:00:00+08:00">
-                2019-06-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="TCP协议详解"><a href="#TCP协议详解" class="headerlink" title="TCP协议详解"></a>TCP协议详解</h1><h2 id="TCP服务的特点"><a href="#TCP服务的特点" class="headerlink" title="TCP服务的特点"></a>TCP服务的特点</h2><p>&nbsp;&nbsp;&nbsp;&nbsp; TCP相对UDP的特点是:面向连接,字节流和可靠传输</p>
-<p>TCP通信双方要建立连接(这种连接是一对一的,基于广播或多播的应用程序不能使用TCP),双方都必须为该连接分配必要的内核资源,以管理连接的状态和连接上的数据.TCP的连接是全双工的.即双方数据读写可以通过一个连接进行.通信双方都必须断开连接以释放系统资源.</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/06/10/TCP协议详解/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/10/cgroups/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -821,6 +808,153 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/10/TCP协议详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="h3m">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Channels">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/10/TCP协议详解/" itemprop="url">TCP 协议详解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-10T00:00:00+08:00">
+                2019-06-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="TCP协议详解"><a href="#TCP协议详解" class="headerlink" title="TCP协议详解"></a>TCP协议详解</h1><h2 id="TCP服务的特点"><a href="#TCP服务的特点" class="headerlink" title="TCP服务的特点"></a>TCP服务的特点</h2><p>&nbsp;&nbsp;&nbsp;&nbsp; TCP相对UDP的特点是:面向连接,字节流和可靠传输</p>
+<p>TCP通信双方要建立连接(这种连接是一对一的,基于广播或多播的应用程序不能使用TCP),双方都必须为该连接分配必要的内核资源,以管理连接的状态和连接上的数据.TCP的连接是全双工的.即双方数据读写可以通过一个连接进行.通信双方都必须断开连接以释放系统资源.</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/06/10/TCP协议详解/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -867,7 +1001,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -878,7 +1012,7 @@
               
               <div class="site-state-item site-state-categories">
                 
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">分类</span>
                 
               </div>
@@ -889,7 +1023,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>

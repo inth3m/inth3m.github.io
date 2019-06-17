@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="春招实习面试的时候，每次都被问到项目的内存池实现，其实是 STL 里的内存池，实现已经比较古老了，效率可能也不高。要学习一下现代的内存池实现了。 官方文档: https://gperftools.github.io/gperftools/tcmalloc.html 使用通过 -ltcmalloc 链接到用用程序 概览TCmalloc 有三个层次的内存管理: ThreadCache, Central">
+<meta name="description" content="春招实习面试的时候，每次都被问到项目的内存池实现，其实是 STL 里的内存池，实现已经比较古老了，效率可能也不高。要学习一下现代的内存池实现了。 官方文档: https://gperftools.github.io/gperftools/tcmalloc.html">
 <meta name="keywords" content="内存池">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TCMalloc 解析">
 <meta property="og:url" content="http://yoursite.com/2019/06/14/TCMalloc/index.html">
 <meta property="og:site_name" content="Channels">
-<meta property="og:description" content="春招实习面试的时候，每次都被问到项目的内存池实现，其实是 STL 里的内存池，实现已经比较古老了，效率可能也不高。要学习一下现代的内存池实现了。 官方文档: https://gperftools.github.io/gperftools/tcmalloc.html 使用通过 -ltcmalloc 链接到用用程序 概览TCmalloc 有三个层次的内存管理: ThreadCache, Central">
+<meta property="og:description" content="春招实习面试的时候，每次都被问到项目的内存池实现，其实是 STL 里的内存池，实现已经比较古老了，效率可能也不高。要学习一下现代的内存池实现了。 官方文档: https://gperftools.github.io/gperftools/tcmalloc.html">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2019/06/17/5d0748456281f92930.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/17/5d074f0ca2f6477736.png">
@@ -93,10 +93,10 @@
 <meta property="og:image" content="https://i.loli.net/2019/06/17/5d074e5c2a7ec45404.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/17/5d074edf4acf586964.png">
 <meta property="og:image" content="https://i.loli.net/2019/06/17/5d074d6dc594315695.png">
-<meta property="og:updated_time" content="2019-06-17T08:38:45.876Z">
+<meta property="og:updated_time" content="2019-06-17T09:05:58.869Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TCMalloc 解析">
-<meta name="twitter:description" content="春招实习面试的时候，每次都被问到项目的内存池实现，其实是 STL 里的内存池，实现已经比较古老了，效率可能也不高。要学习一下现代的内存池实现了。 官方文档: https://gperftools.github.io/gperftools/tcmalloc.html 使用通过 -ltcmalloc 链接到用用程序 概览TCmalloc 有三个层次的内存管理: ThreadCache, Central">
+<meta name="twitter:description" content="春招实习面试的时候，每次都被问到项目的内存池实现，其实是 STL 里的内存池，实现已经比较古老了，效率可能也不高。要学习一下现代的内存池实现了。 官方文档: https://gperftools.github.io/gperftools/tcmalloc.html">
 <meta name="twitter:image" content="https://i.loli.net/2019/06/17/5d0748456281f92930.png">
 
 
@@ -331,6 +331,7 @@
       
         <p>春招实习面试的时候，每次都被问到项目的内存池实现，其实是 STL 里的内存池，实现已经比较古老了，效率可能也不高。要学习一下现代的内存池实现了。</p>
 <p>官方文档: <a href="https://gperftools.github.io/gperftools/tcmalloc.html" target="_blank" rel="noopener">https://gperftools.github.io/gperftools/tcmalloc.html</a></p>
+<a id="more"></a>
 <h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>通过 -ltcmalloc 链接到用用程序</p>
 <h3 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h3><p>TCmalloc 有三个层次的内存管理: ThreadCache, CentralCache, PageHeap</p>
 <p><img src="https://i.loli.net/2019/06/17/5d0748456281f92930.png" alt="20190617155903.png"></p>
@@ -390,6 +391,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/17/GO踩坑/" rel="prev" title="Golang 踩坑和原理">
+                Golang 踩坑和原理 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -466,7 +471,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -477,7 +482,7 @@
               
               <div class="site-state-item site-state-categories">
                 
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">分类</span>
                 
               </div>
@@ -488,7 +493,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
