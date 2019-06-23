@@ -321,12 +321,26 @@
 
       
         
-          
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">期末考试不想复习，先开一个坑。</span><br></pre></td></tr></table></figure>
+          <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">期末考试不想复习，先开一个坑。</span><br></pre></td></tr></table></figure>
 
 <p>Kubernetes 是 Google 基于 Borg 开源的容器编排调度引擎。</p>
-<h2 id="Kubernetes-架构"><a href="#Kubernetes-架构" class="headerlink" title="Kubernetes 架构"></a>Kubernetes 架构</h2>
-          
+<h2 id="Kubernetes-架构"><a href="#Kubernetes-架构" class="headerlink" title="Kubernetes 架构"></a>Kubernetes 架构</h2><p>Kubernetes 主要由以下几个核心组件组成</p>
+<ul>
+<li>etcd: 保存了整个集群的状态</li>
+<li>apiserver: 提供了资源操作的唯一入口，并提供认证，授权，访问控制，AIPI 注册和发现等机制</li>
+<li>controller manager: 负责维护集群状态，比如故障检测，自动扩展，滚动更新</li>
+<li>scheduler: 负责资源的调度，单招预定的调度策略将 Pod 调度到相应的机器上</li>
+<li>kubelet: 负责维护容器的生命周期，同时也负责 Volume 和 网络的管理</li>
+<li>Contanner runtime: 负责镜像管理以及 Pod 和容器的真正运行</li>
+<li>kube-proxy: 为 Service 提供 cluster 内部的服务发现和负载均衡</li>
+</ul>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/06/22/kubernetes/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -670,294 +684,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/10/HTTP详解/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="h3m">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Channels">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/10/HTTP详解/" itemprop="url">HTTP 协议详解</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-10T00:00:00+08:00">
-                2019-06-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/HTTP/" itemprop="url" rel="index">
-                    <span itemprop="name">HTTP</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Web-基础"><a href="#Web-基础" class="headerlink" title="Web 基础"></a>Web 基础</h3>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/10/TCP协议详解/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="h3m">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Channels">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/10/TCP协议详解/" itemprop="url">TCP 协议详解</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-10T00:00:00+08:00">
-                2019-06-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="TCP协议详解"><a href="#TCP协议详解" class="headerlink" title="TCP协议详解"></a>TCP协议详解</h1><h2 id="TCP服务的特点"><a href="#TCP服务的特点" class="headerlink" title="TCP服务的特点"></a>TCP服务的特点</h2><p>&nbsp;&nbsp;&nbsp;&nbsp; TCP相对UDP的特点是:面向连接,字节流和可靠传输</p>
-<p>TCP通信双方要建立连接(这种连接是一对一的,基于广播或多播的应用程序不能使用TCP),双方都必须为该连接分配必要的内核资源,以管理连接的状态和连接上的数据.TCP的连接是全双工的.即双方数据读写可以通过一个连接进行.通信双方都必须断开连接以释放系统资源.</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/06/10/TCP协议详解/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/10/cgroups/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1099,6 +825,628 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/10/Docker/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="h3m">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Channels">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/10/Docker/" itemprop="url">Docker 原理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-10T00:00:00+08:00">
+                2019-06-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Docker/" itemprop="url" rel="index">
+                    <span itemprop="name">Docker</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Dockers 产生的目的是为了解决以下问题</p>
+<ol>
+<li>环境管理复杂。Docker 可以简化部署多种应用的实例工作</li>
+<li>云计算时代的到来。</li>
+<li>虚拟化手段的变化</li>
+</ol>
+<h2 id="核心技术预览"><a href="#核心技术预览" class="headerlink" title="核心技术预览"></a>核心技术预览</h2><p>Dokcer 核心是一个操作系统级虚拟化方法</p>
+<h3 id="隔离性"><a href="#隔离性" class="headerlink" title="隔离性"></a>隔离性</h3><p>每个用户实例之间相互隔离，互不影响。</p>
+<ol>
+<li>pip namespace</li>
+</ol>
+<p>不用用户的进程就是通过 pip namespace 隔离开的，不同 namespace 中可以有相同的pid，所有进程在 docker 中的父进程为 docker 进程</p>
+<ol start="2">
+<li>net namespace</li>
+</ol>
+<p>网络隔离是通过 net namespace 实现的，每个 net namespace 有独立的 network device， IP address， IP routing tables， /proc/net 目录。这样每个容器的网络就能隔离开来。 docker 默认采用 veth 的方式将容器中的虚拟网通同host 上的一个 docker bridge：docker0 连接在一起。</p>
+<ol start="3">
+<li>ipc namespace</li>
+</ol>
+<p>容器中进程交互采用还是Linux 中常见的进程交互方法，包括信号量，消息队列和共享内存。容器的进程间的交互实际上还是 host 具有相同 pid namespace 中的进程间交互，因此只需要在 IPC 资源申请时加入 namespace 信息</p>
+<ol start="4">
+<li>mnt namesapce</li>
+</ol>
+<p>类似 chroot，将一个进程放到一个特定的目录执行， mnt namespace 允许不同的 namespace 进程看到的文件结果不同没这样每个 namespace 中的进程所看到的文件目录就被隔离开了。每个 namespace 中的 container 在 /proc/mounts 的信息只包含所在namespace 的 mount point。</p>
+<ol start="5">
+<li>uts namespace</li>
+</ol>
+<p>UTS(UNIX Time-sharing System) namespace 运行每个容器拥有独立的 hostname 和 domain name，使其在网络上可以被视为一个独立的节点</p>
+<ol start="6">
+<li>user namespace</li>
+</ol>
+<p>每个容器可以有不同的 user 和 group id</p>
+<h3 id="可配额-可度量-control-group"><a href="#可配额-可度量-control-group" class="headerlink" title="可配额/可度量 control group"></a>可配额/可度量 control group</h3><p>cgroup 实现了对资源的配额和度量。 cgroups 的使用非常简单，提供类似文件接口，在 /cgroup 目录下新建一个文件夹即可新建一个 group，在此文件夹下创建 task文件，并将 pid 写入该文件，即可实现对该进程的资源控制</p>
+<ol>
+<li>blkio 设置限制每个块设备的输入输出控制</li>
+<li>cpu 使用调度成为为 cgroup 任务提供 cpu 访问</li>
+<li>cpuacct 产生 cgroup 任务的 cpu 资源报告</li>
+<li>cpuset 如果是多核心cpu，这个子系统会为 cpugroup 任务分配单独的 cpu 和neicun</li>
+<li>device 允许或拒绝 cgroup 任务对设备的访问</li>
+<li>freezer 暂停和回复 cgroup 任务</li>
+<li>memory 设置每个 cgroup 的内存限制以及生产内存资源报告</li>
+<li>net——cls 标记每个网络包以提供cgroup方便使用</li>
+<li>ns 名称空间</li>
+</ol>
+<h3 id="便携性-AUFS"><a href="#便携性-AUFS" class="headerlink" title="便携性: AUFS"></a>便携性: AUFS</h3><p>AUFS(AnotherUnionFs) 是一种Union Fs， 简单来说就是支持将不同目录挂载到同一个虚拟文件系统下的文件系统。AUFS 支持为每一个成员目录设定权限，同时 AUFS 有一个分层的概念，对 readonly 秦安县的branch 可以逻辑上进行修改（增量的，不影响 readonly 部分）。</p>
+<p>将 readonly 的 branch 和一个 writeble 的 branch 联合在一起。</p>
+<p>典型的 Linux 运行需要两个 FS: bootfs + rootfs</p>
+<p>bootfs 主要是引导加载 kernel<br>rootfs 包含就是典型 Linux 系统中的 /dev,/proc,/bin,/etc 等标准目录和文件</p>
+<p>对于不同Lunix 发行版本，bootfs 基本一致，rootfs 有差别。<br>典型 Linux 启动后，首先将 rootfs 设置为 readonly，进行一些列检查，然后切换成 readwrite供用户使用。</p>
+<p>在 Docker 中，初始化将 rootfs 以 readonly 方式加载检查，然后利用 unionmount 的方式将一个 readwrite 文件系统挂载在 readonly 的 rootfs 之上，并允许再次将下层的 FS 设定为 readonly 并向上叠加。</p>
+<p><img src="https://i.loli.net/2019/05/12/5cd813174ac73.png" alt="20190512203532.png"></p>
+<p>Docker 将 readonly 的 FS 层称作 image，对于容器而言整个rootfs 都是 readwrite的，但事实上所有的修改都写入最上层的 writeble层这种。image不保存用户状态，只用于模板，新建和复制。</p>
+<h2 id="Docker-命令行"><a href="#Docker-命令行" class="headerlink" title="Docker 命令行"></a>Docker 命令行</h2><p>命令分为四部分</p>
+<ul>
+<li>环境信息相关</li>
+</ul>
+<ol>
+<li>info</li>
+<li>version</li>
+</ol>
+<ul>
+<li>系统运维相关</li>
+</ul>
+<ol>
+<li>attach: 挂载正在后台运行的程序</li>
+<li>build: 从源码构建新Image的命令</li>
+<li>commit: 把有修改的 容器提交成新的 Image</li>
+<li>cp: 把容器内的文件复制到 Host 主机上</li>
+<li>diff: 列出3种文件状态变化的清单</li>
+<li>export: 把容器文件系统打包起来</li>
+<li>images: 显示最顶层 Image</li>
+<li>import / save / load: 加载和导出容器系统文件</li>
+<li>inspect: 查看容器运行时的详细命令</li>
+<li>kill: 杀掉容器的进程</li>
+<li>port：打印出 Host 主机端口与容器暴露端口的 NAT 映射关系</li>
+<li>pause / unpause</li>
+<li>ps: 打印正在运行的容器</li>
+<li>rm: 删除指定的容器</li>
+<li>rmi: 删除指定的 Image 文件</li>
+<li>run：</li>
+<li>start / stop / restart</li>
+<li>tag</li>
+<li>top: 显示容器内运行的进程</li>
+<li>wait: 阻塞对容器的其他调用方法</li>
+</ol>
+<ul>
+<li>日志信息相关</li>
+</ul>
+<ol>
+<li>events</li>
+<li>history</li>
+<li>logs</li>
+</ol>
+<ul>
+<li>Docker Hub 相关</li>
+</ul>
+<ol>
+<li>login</li>
+<li>pull / push</li>
+<li>search</li>
+</ol>
+<h2 id="Docker-架构"><a href="#Docker-架构" class="headerlink" title="Docker 架构"></a>Docker 架构</h2><h3 id="Dokcer-架构总图"><a href="#Dokcer-架构总图" class="headerlink" title="Dokcer 架构总图"></a>Dokcer 架构总图</h3><p><img src="https://i.loli.net/2019/05/18/5cdfc5f01fd7913051.png" alt="20190518164427.png"></p>
+<p>用户是使用 Docker Client 与 Docker Daemon 进行通信，并发送请求给后者。</p>
+<ul>
+<li><p>Server 功能接收 Docker Client 的请求， Engine 执行 Docker 内部的一系列工作，每一项工作都是以一个 Job 的形式存在。</p>
+</li>
+<li><p>Job 运行的过程中，当需要容器镜像时，则从 Docker Registry 中下载镜像，并通过镜像管理驱动</p>
+</li>
+<li><p>graphdrive 将下载镜像以 Graph 形式存储，当需要为 Docker 创建网络环境时，通过网络管理驱动。</p>
+</li>
+<li><p>networkdrive 创建并配置 Docker 容器网络环境，当需要限制 Docker 容器运行资源或执行用户指令等操作时，则通过 execdriver 来完成</p>
+</li>
+<li><p>libcontainer 时独立的容器管理包， networkdriver 和 execdriver 都是通过 libcontainer 实现具体对容器的操作</p>
+</li>
+</ul>
+<p>当执行完容器的命令后，一个实际的 Docker 容器就处于运行状态，该容器拥有独立的文件系统，独立并且安全的运行环境。</p>
+<h3 id="Docker-架构内各个模块的功能与实现分析"><a href="#Docker-架构内各个模块的功能与实现分析" class="headerlink" title="Docker 架构内各个模块的功能与实现分析"></a>Docker 架构内各个模块的功能与实现分析</h3><h4 id="Docker-Client"><a href="#Docker-Client" class="headerlink" title="Docker Client"></a>Docker Client</h4><p>Docker Client 是 Docker架构中用户用来和 Docker Daemon 建立通信的客户端。用户使用的可执行文件为 docker，通过 docker 命令行工具发起对众多管理 container 对请求。</p>
+<p>Docker Client 可以使用三种方式和 Docker Daemon 进行通信：<br>tcp://host:port, unix://path_to_socket，fd://socketfd<br>与 Docker Daemon 建立并传输请求的时候，Docker Client 可以通过设置命令行 flag 参数形式设置安全传输层协议有关参数，保证传输的安全性。</p>
+<p>Docker Client 发送容器管理请求后，由 Docker Daemon 接受并处理请求，当Docker Client接收到返回的请求并相应简单处理后，Docker CLient 的一次完整生命周期就结束了。需要继续发送请求时，用户必须通过可执行文件docker创建 Docker Client</p>
+<h4 id="Docker-Daemon"><a href="#Docker-Daemon" class="headerlink" title="Docker Daemon"></a>Docker Daemon</h4><p>Docker Daemon 时一个常驻在后台的系统进程，功能是：接收并处理 Docker Client 发送的请求，该守护进程中在后台启动了一个 Server，Server 负责接收 Docker Client 发送的请求，接收请求后 Server 通过路由与分发调度，找到相应的 Handler 来执行请求。</p>
+<p>Docker Daemon 启动使用的可执行文件也是 docker，与 Docker Client 的相同，通过参数判断是 Docker Client 还是 Docker Daemon。</p>
+<p>Docker Daemon  的三部分：<br>Docker server， Engine， Job</p>
+<p><img src="https://i.loli.net/2019/05/18/5cdfcb48b9cf543822.png" alt="20190518170703.png"></p>
+<h4 id="Docker-Server"><a href="#Docker-Server" class="headerlink" title="Docker Server"></a>Docker Server</h4><p>Docker Server 专门用来服务 Docker Client，功能是：接收并调度分发 Docker Client 的请求。</p>
+<p><img src="https://i.loli.net/2019/05/18/5cdfcc2f1e56980061.png" alt="20190518171108.png"></p>
+<p>在 Docker 的启动过程中，通过包 gorilla/mux，创建了一个 mux.Router， 提供请求功能的路由。gorilla/mux 是一个强大的 URL 路由器以及调度分发器。 该 mux.Router 添加了众多路由项，每个路由项由 HTTP 请求方法(PUT、POST、GET、DELETE)、URL、Handler 三部分组成。</p>
+<p>若 Dokcer Client 通过 HTTP 的形式访问 Docker Daemon，创建完 mux.Router 后，Docker 将 Server 的舰艇地址以及 mux.Router 作为参数，创建一个 httpSrv = http.Server{}, 最终执行 http.Srv.Server() 为请求服务。</p>
+<p>在 Server 服务过程中，Server 在 listener 上接受 Docker Client的访问请求，并创建一个全新的 goroutine 来服务该请求。</p>
+<h5 id="Engine"><a href="#Engine" class="headerlink" title="Engine"></a>Engine</h5><p>Engine 是 Docker 架构中的运行引擎，是 Docker 运行和核心模块。它扮演 Docker container 存储仓库的角色，并通过执行 job 的方式来操纵管理这些容器。</p>
+<h5 id="Job"><a href="#Job" class="headerlink" title="Job"></a>Job</h5><p>JOb 是 Docker 架构中 Engine 内部最基本的工作执行单元，Docker 做的每项工作都可以抽象成一个 Job。</p>
+<h4 id="Docker-Registry"><a href="#Docker-Registry" class="headerlink" title="Docker Registry"></a>Docker Registry</h4><p>Docker Registry 是一个存储容器镜像的仓库。 容器镜像是容器被创建时，被用来初始化容器的文件架构与目录。</p>
+<p>Docker 运行过程中， Docker Daemon 会与 Docker Registry 通信，实现 search pull push 功能</p>
+<h4 id="Graph"><a href="#Graph" class="headerlink" title="Graph"></a>Graph</h4><p>Graph 在 Docker中扮演者已下载镜像的保管着。</p>
+<p><img src="https://i.loli.net/2019/05/18/5cdfd311f1efd81480.png" alt="20190518174031.png"></p>
+<p>Graph 是构建在一个SQlite之上的小型图数据库，实现了节点的命名以及节点之间关系的记录。</p>
+<p>同时 Graph 的本地目录中，关于每个容器镜像存储有：容器镜像的元数据，大小信息，具体rootfs</p>
+<h4 id="Driver"><a href="#Driver" class="headerlink" title="Driver"></a>Driver</h4><p>Driver 是 Docker架构中的驱动模块，通过 Driver 驱动， Docker 可以实现对 Docker 容器执行环境的定制。由于Docker 生命周期中，并非所有操作都是针对 DOcker 容器的管理，还有关于信息的获取，因此，为了将 Docker 容器的管理从 Docker Daemon 内部业务逻辑中分开来，设计 Driver 层驱动来接管所有这部分请求。</p>
+<p>Docker Driver 可以分为三类： graphdriver、 networkdriver 和 execdriver。</p>
+<p>graphdriver 主要用于完成容器镜像的管理，包括哟存储与获取，当用户需要指定容器镜像来创建 roofs 时，graphdriver 从本地镜像目录中获取指定的容器镜像。</p>
+<p>在 graphdriver 初始化过程之前，有四种文件系统在其内部注册： aufs、btrfs、vfs、devmapper。在 Docker 初始化之前，通过获取系统环境变量 “DOCKER_DRIVER” 来提取所使用的 driver 的指定类型。</p>
+<p><img src="https://i.loli.net/2019/05/19/5ce0f8843e45385020.png" alt="20190519143233.png"></p>
+<p>network driver 的用途是完成 Docker 容器网络环境的配置，其中包括 Docker 启动时为 Dokcer 环境创建网桥，Docker 容器创建时为其创建专属虚拟网卡设备，以及为 Docker 容器分配 Ip，端口并与宿主机做端口映射，设置容器防火墙策略等。</p>
+<p><img src="https://i.loli.net/2019/05/19/5ce0f911bb54968285.png" alt="20190519143457.png"></p>
+<p>execdriver 作为 Dokcer 容器的执行驱动，负责创建容器运行命名空间，负责容器资源使用的统计与闲置，负责容器内部进程的真正运行。</p>
+<p><img src="https://i.loli.net/2019/05/19/5ce0f9f62d89d80240.png" alt="20190519143844.png"></p>
+<h4 id="libcontainer"><a href="#libcontainer" class="headerlink" title="libcontainer"></a>libcontainer</h4><p>libcontainer 是 Docker 架构中一个使用 GO 语言设计实现的库，设计初衷是希望该库可以不依靠任何依赖直接访问内核中与容器相关的API</p>
+<p><img src="https://i.loli.net/2019/05/19/5ce0fd557960436217.png" alt="20190519145308.png"></p>
+<h4 id="Dokcer-container"><a href="#Dokcer-container" class="headerlink" title="Dokcer container"></a>Dokcer container</h4><p>Docker 容器是 Docker 架构中服务交付的最终体现形式<br>Docker 按照用户需求与指令，定制相应的 Docker 容器</p>
+<ul>
+<li>用户通过指定容器镜像，使得 Docker 容器可以自定义 rootfs 等文件系统</li>
+<li>用户通过指定计算资源的配额，使 Docker 容器使用指定的计算资源</li>
+<li>用户通过配置网络及其安全策略，使得 Docker 容器拥有独立安全的网络环境</li>
+<li>用户通过指定运行的命令，使得 Docker 容器执行指定的工作</li>
+</ul>
+<p><img src="https://i.loli.net/2019/05/19/5ce0fe982be8448014.png" alt="20190519145831.png"></p>
+<h3 id="Docker-运行案例分析"><a href="#Docker-运行案例分析" class="headerlink" title="Docker 运行案例分析"></a>Docker 运行案例分析</h3><h4 id="docker-pull"><a href="#docker-pull" class="headerlink" title="docker pull"></a>docker pull</h4><p>docker pull作用是：从 docker registry 中下载指定容器镜像，并存储在本地的 Graph 中。</p>
+<p>docker pull  命令执行流程：</p>
+<p><img src="https://i.loli.net/2019/05/19/5ce0ffbe4b76087420.png" alt="20190519150258.png"></p>
+<ol>
+<li>docker client 接受 docker pull 命令，解析完请求以及收集完请求参数之后，发送一个 HTTP 请求给 Docker Server， HTTP 请求方法为 POST，请求 URL 为 “/images/create?” + “xxx”</li>
+<li>Docker Server 接受 HTTP请求，并交给 mux.Router， mux.Router 通过 URL 以及请求方法来确定执行该请求的具体 handler</li>
+<li>mux.Router 将请求路由分发至相应的 Handler，具体为 PostImagerCreate</li>
+<li>在 PostImagerCreate 这个handler 中，一个名为 “pull” 的 job 被创建，开始执行：</li>
+<li>pull 执行过程中，执行 pullRepositor 操作，从 Dockers registry 中下载相应的 image</li>
+<li>pull 的job 将下载的 image 交给graphdriver</li>
+<li>graphdriver 负责将 image 进行存储，一方面创建graph 对象，另一方面在 GraphDB 中记录 image 的关系</li>
+</ol>
+<h4 id="docker-run"><a href="#docker-run" class="headerlink" title="docker run"></a>docker run</h4><p>docker run 的作用是：在一个全新的 Docker 容器内部运行一条指令。 Docker 再执行这条命令的额时候，所做的工作为：</p>
+<ul>
+<li>创建Docker 容器所需的 rootfs</li>
+<li>创建容器的网络等运行环境，并运行用户指令</li>
+</ul>
+<p>在整个流程中， Dokcer Client 给 Docker Server 发送了两次 HTTP 请求，第二次请求的发起取决于第一次请求的返回状态</p>
+<p><img src="https://i.loli.net/2019/05/19/5ce10557021de81282.png" alt="docker run"></p>
+<ol>
+<li>Docker Client 接受 docker run 命令，解析完请求以及收集完请求参数之后，发送一个 HTTP 请求给 Docker Server， HTTP 请求方法为 POST，请求 URL 为 “containers/create?”+”xxx”</li>
+<li>Docker Server 接受 HTTP请求，并交给 mux.Router， mux.Router 通过 URL 以及请求方法来确定执行该请求的具体 handler</li>
+<li>mux.Router 将请求路由分发至相应的 Handler，具体为 PostContainersCreate</li>
+<li>在 PostContainersCreate 这个handler 中，一个名为 “create” 的 job 被创建，开始执行</li>
+<li>名为 create 的 job 执行 Container.create 操作，该操作需要获取容器镜像来为 Docker 容器创建 rootfs，即调用 graphdriver</li>
+<li>graphdriver 从 Graph 中或许创建 Docker 容器 rootfs 所需要的所有镜像</li>
+<li>graphdriver 将 rootfs 所有镜像加载安装至 Docker 容器指定的文件目录下</li>
+<li>若以上操作正常，没有错误或异常，则 Dockers Client 收到 Docker Server 返回状态之后，发送第二次 HTTP 请求。 请求方法为 POST，请求 URL 为 “/containers” + containersID + “/start”</li>
+<li>Docker Server 接受 HTTP请求，并交给 mux.Router， mux.Router 通过 URL 以及请求方法来确定执行该请求的具体 handler</li>
+<li>mux.Router 将请求路由分发至相应的 Handler，具体为 PostContainersStart</li>
+<li>在 PostContainersStart 这个handler 中，一个名为 “start” 的 job 被创建，开始执行</li>
+<li>名为 start 的 job 被创建之后，开始配置与创建网络环境，调用 networkedriver</li>
+<li>networkdriver 需要为指定的 Docker 容器创建网络接口设备，并为其分配 IP， port，以及防火墙规则，相应的操作转交至 libcontianer 中的 netlinke 来完成</li>
+<li>netlink 完成 Dokcer 容器的网络环配置与创建</li>
+<li>返回至名为 start 的 job， 执行完一些列辅助操作后，调用execdriver</li>
+<li>execdriver 被调用，初始化 Docker 容器内部运行环境买入命名空间，资源控制与隔离，以及用户命令的执行，相应操作转交至 libcontainer 来执行</li>
+<li>libcontianer 被调用，完成 Docker 容器内部的运行环境初始化，并最终执行用户要求启动的命令</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/01/HTTP详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="h3m">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Channels">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/01/HTTP详解/" itemprop="url">HTTP 协议详解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-01T00:00:00+08:00">
+                2019-03-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HTTP/" itemprop="url" rel="index">
+                    <span itemprop="name">HTTP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h3 id="Web-基础"><a href="#Web-基础" class="headerlink" title="Web 基础"></a>Web 基础</h3>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/01/TCP协议详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="h3m">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Channels">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/01/TCP协议详解/" itemprop="url">TCP 协议详解</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-01T00:00:00+08:00">
+                2019-01-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="TCP协议详解"><a href="#TCP协议详解" class="headerlink" title="TCP协议详解"></a>TCP协议详解</h1><h2 id="TCP服务的特点"><a href="#TCP服务的特点" class="headerlink" title="TCP服务的特点"></a>TCP服务的特点</h2><p>&nbsp;&nbsp;&nbsp;&nbsp; TCP相对UDP的特点是:面向连接,字节流和可靠传输</p>
+<p>TCP通信双方要建立连接(这种连接是一对一的,基于广播或多播的应用程序不能使用TCP),双方都必须为该连接分配必要的内核资源,以管理连接的状态和连接上的数据.TCP的连接是全双工的.即双方数据读写可以通过一个连接进行.通信双方都必须断开连接以释放系统资源.</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/01/TCP协议详解/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -1145,7 +1493,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1156,7 +1504,7 @@
               
               <div class="site-state-item site-state-categories">
                 
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 
               </div>
