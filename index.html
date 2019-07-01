@@ -248,7 +248,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/06/26/矿厂三个月/" itemprop="url">矿厂三个月</a></h1>
+                <a class="post-title-link" href="/2019/06/26/矿厂三个月/" itemprop="url">旷厂三个月</a></h1>
         
 
         <div class="post-meta">
@@ -323,20 +323,55 @@
         
           
             <p>3 月 25 入职, 6 月 26 正式离职，刚好在旷视实习三个月。记一下第一次实习的经历。</p>
-<p>工作：</p>
-<ol>
-<li>开发多租户配额管理</li>
-<li>参与 scheduler 重构开发 配额管理模块</li>
-</ol>
-<p>配额管理方案:</p>
-<p>配额完全作为逻辑概念，不与实际物理资源绑定，只作为调度前的检查</p>
+<p>旷厂的氛围总体来说是轻松愉快，部门的人都很好，特别是靖入大哥给了我很多帮助，跟着他也学了很多东西。第一周就是配环境。配环境基本就是配置容器环境。第一次接触 docker 和 kubernetes，摸索了很久。</p>
+<p>之后就是学习 kubernetes 组件，重点是 scheduler。还有学习 GO 的基本用法。之后工作就慢慢进入正轨，可以接一些需求了。</p>
+<p>重构 scheduler 的工作一直在关注，很可惜在这三个月没有完整跟进这一个项目。三个月从产品计划到上线完整跟进的只有多租户开发这一个项目，其它都是函数小修小补。</p>
+<h3 id="云平台"><a href="#云平台" class="headerlink" title="云平台"></a>云平台</h3><p>部门主要是做云计算平台，这是我第一次认识云计算。</p>
+<p>云服务分为三大类: 基础设施即服务(IaaS)，软件即服务(SaaS)，平台即服务(PaaS)</p>
+<p>云计算平台就是将开发者需要的软件集成到一个平台上，开发者登录这个平台，就可以使用平台上的开发环境，软件，数据库。</p>
+<p>一个云平台总体需要以下服务</p>
 <ul>
-<li>检查 ws 配额，优先级配额，组配额</li>
+<li>前端显示界面</li>
+<li>用户登录认证</li>
+<li>存储管理</li>
+<li>分配 IP</li>
+<li>机器上部署的服务</li>
+<li>scheduler</li>
+<li>物理机维护</li>
+<li>ssh 代理</li>
+<li>http 代理</li>
+<li>公网服务</li>
 </ul>
-<p>如果组配额不满足要求，将优先级驱逐 preemptible 状态。</p>
-<p>凡是资源(优先级，标签，CPU，GPU, SSD, memory)都可以设置配额，配额都以组单位进行配置。</p>
-<p>扩展多租户，租户拥有配额，租户下面有组，组配额的和不能超过租户配额。</p>
-<p>组和组之间的配额可以转换，不同租户的组配额不能转换。</p>
+<p>网络服务不是很清楚，主要是网络隔离，和服务代理，负载均衡。</p>
+<h3 id="scheduler"><a href="#scheduler" class="headerlink" title="scheduler"></a>scheduler</h3><p>因为 mentor 主要是维护 scheduler。 实习期间主要看的也是这个。</p>
+<h4 id="资源利用率"><a href="#资源利用率" class="headerlink" title="资源利用率"></a>资源利用率</h4><p>资源共享的过程离不开两个维度：资源粒度、时间片。资源的效率 =Σ(在线资源粒度时间片利用率) -Σ(资源离线粒度 * 时间片)。资源效率包括两部分，在线部分和离线部分，离线部分主要是机器故障到恢复的过程，优化这部分资源效率，提升服务器在线率。软硬件故障通用措施有：故障预警、故障检测、故障自动修复、故障自动化处理流程等。</p>
+<ul>
+<li><p>一定不能被分配的资源。比如：计算节点上没有 CPU，那么可以认为其他所有剩余的资源都是碎片 </p>
+</li>
+<li><p>不容易被分配的资源。比如：计算节点上剩余 CPU 或 Mem 较少，那么 GPU 能被分配出去的可能性比较低；剩余的资源比较小，只能满足小资源请求</p>
+</li>
+<li><p>考虑节点上每种资源的剩余比例，找出比例最小的一个作为该节点的可用资源比例，该节点上所有资源都以该值作为计算依据。</p>
+</li>
+<li><p>可以考虑以上面的值为依据做加权平均，上面的值越小，在碎片化率中的权重越高 </p>
+</li>
+<li><p>更重要的资源碎片化权重更高，比如给与 GPU 碎片更高的权重</p>
+</li>
+</ul>
+<h4 id="配额管理"><a href="#配额管理" class="headerlink" title="配额管理"></a>配额管理</h4><p>配额管理作为逻辑概念，不予实际物理资源绑定，作为调度前的检查。<br>凡是资源都可以设置配额，CPU，GPU，标签等</p>
+<p>配额管理可以分为</p>
+<ul>
+<li>固定配额: 实例启动前和运行期间，实例占用的资源规格保持不变。或者物理机或者集群在混部过程，对某一类型的任务分配固定的资源占比。</li>
+<li>动态配额: 是指实例运行期间，CPU 或 Memory 等根据实时运行需求，进行动态的调配，只要所在物理机资源够用。动态配额模型，一旦支持动态的增加，也就意味着支持动态的减少，也就是一旦资源不够用的时候，高优先级任务继续运行，低优先级任务逼迫释放资源，甚至 Kill 进程或者服务。</li>
+</ul>
+<h4 id="调度流程"><a href="#调度流程" class="headerlink" title="调度流程"></a>调度流程</h4><ol>
+<li>配额检查</li>
+<li>初选：根据标签和剩余资源选出符合要求的计算节点</li>
+<li>优选: 根据标签，剩余资源，拓扑状态为每个计算节点打分，选出得分最高的节点作为结果</li>
+<li>绑定计算节点</li>
+<li>启动任务</li>
+</ol>
+<p>本质上是贪心策略，调度结果不一定是最优解</p>
+<p>全局最优解: 参考 Firmament 的实现进行改进。</p>
 
           
         
@@ -840,157 +875,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/10/Docker/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="h3m">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Channels">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/06/10/Docker/" itemprop="url">Docker 原理</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-10T00:00:00+08:00">
-                2019-06-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Docker/" itemprop="url" rel="index">
-                    <span itemprop="name">Docker</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Dockers 产生的目的是为了解决以下问题</p>
-<ol>
-<li>环境管理复杂。Docker 可以简化部署多种应用的实例工作</li>
-<li>云计算时代的到来。</li>
-<li>虚拟化手段的变化</li>
-</ol>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/06/10/Docker/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/10/cgroups/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1095,6 +979,157 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/06/10/cgroups/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/10/Docker/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="h3m">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Channels">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/06/10/Docker/" itemprop="url">Docker 原理</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-10T00:00:00+08:00">
+                2019-06-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Docker/" itemprop="url" rel="index">
+                    <span itemprop="name">Docker</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Dockers 产生的目的是为了解决以下问题</p>
+<ol>
+<li>环境管理复杂。Docker 可以简化部署多种应用的实例工作</li>
+<li>云计算时代的到来。</li>
+<li>虚拟化手段的变化</li>
+</ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/06/10/Docker/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
