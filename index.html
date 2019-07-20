@@ -321,145 +321,20 @@
 
       
         
-          
-            <h3 id="线程管理"><a href="#线程管理" class="headerlink" title="线程管理"></a>线程管理</h3><ol>
+          <h3 id="线程管理"><a href="#线程管理" class="headerlink" title="线程管理"></a>线程管理</h3><ol>
 <li>启动线程</li>
 </ol>
 <p>使用 C++ 线程库启动线程，要构造 <strong>std::thread</strong> 对象</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">fun</span><span class="params">()</span></span></span><br><span class="line">std::thread my_thread(func)</span><br></pre></td></tr></table></figure>
 
 <p><strong>std::thread</strong> 可以调用类型构造，将带有函数调用符类型的实例传入 <strong>std::thread</strong> 中，替换默认构造函数。<br>函数对象会复制到新线程中，调用和执行都在新线程的线程空间中进行。</p>
-<ol start="2">
-<li>等待线程的完成</li>
-</ol>
-<p>等待线程， <strong>join()</strong><br>分离线程， <strong>detach()</strong></p>
-<p>可以使用 RAII(资源获取即初始化)，用一个 gurad 对象来管理线程，在析构函数中使用 join()</p>
-<ol start="3">
-<li>向线程传递参数</li>
-</ol>
-<p>默认参数要拷贝到线程的独立内存中，即使参数是引用形式<br>如果期望传一个引用，可以用 <strong>std::ref()</strong></p>
-<p>除此之外，还可以传递一个成员函数指针作为线程函数，参数是一个对象指针。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::thread(成员函数，对象指针，函数参数....)</span><br></pre></td></tr></table></figure>
-
-<ol start="4">
-<li>转移线程所有权</li>
-</ol>
-<p>C++ 中有很多占有资源可以移动，但不可拷贝，比如 <strong>std::ifstream, std::unique_ptr, std::thread</strong><br>线程的所有权可以在 std::thread 实例中移动，意味着线程的所有权可以在函数外进行转移</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="function">thread <span class="title">f</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">some_func</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="comment">//可以把这个线程对象转移</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">std</span>::thread(some_func);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">std</span>::<span class="function">thread <span class="title">g</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">some_other_func</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line">    <span class="built_in">std</span>::<span class="function">thread <span class="title">t</span><span class="params">(some_other_func,<span class="number">42</span>)</span></span>;</span><br><span class="line">    <span class="keyword">return</span> t</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>std::thread 支持移动的好处是可以创建 thread_guard 类的实例，并拥有线程的所有权</p>
-<ol start="5">
-<li>标识线程</li>
-</ol>
-<p>线程的标识是 std::thread::id, 可以通过两种方式进行检索。</p>
-<p>get_id()</p>
-<h3 id="线程间共享数据"><a href="#线程间共享数据" class="headerlink" title="线程间共享数据"></a>线程间共享数据</h3><ol>
-<li>竞态条件</li>
-</ol>
-<p>并发中竞态条件的形成，取决于一个以上的线程的相对执行顺序</p>
-<ol start="2">
-<li>使用互斥量保护共享数据</li>
-</ol>
-<p>可以使用 C++ 标准库提供的 std::lock_guard, 使用 RAII 保证了上锁和解锁。</p>
-<p>有时候上锁也会暴露出共享数据。</p>
-<p>切勿将受到保护的数据指针或引用传递到互斥锁作用域之外</p>
-<h4 id="实现一个线程安全的栈"><a href="#实现一个线程安全的栈" class="headerlink" title="实现一个线程安全的栈"></a>实现一个线程安全的栈</h4><p>假设栈的每个操作都用互斥锁保护起来，有以下两个问题</p>
-<ol>
-<li>empty() 和 size() 是不可靠的</li>
-</ol>
-<p>这个两个函数在调用时候是正确的，当它们返回后其它线程就可以自由地访问栈，可能 push，也可能 pop，这样，之前得到的结果就有问题。</p>
-<ol start="2">
-<li>top() 和 pop() 之间的问题</li>
-</ol>
-<table>
-<thead>
-<tr>
-<th>Thread A</th>
-<th>Thread B</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>if(!s.empty())</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>if(!s.empty())</td>
-</tr>
-<tr>
-<td>int const value = s.top()</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>int const value = s.top()</td>
-</tr>
-<tr>
-<td>s.pop()</td>
-<td></td>
-</tr>
-<tr>
-<td>do_something(value)</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td>s.pop()</td>
-</tr>
-<tr>
-<td></td>
-<td>do_something(value)</td>
-</tr>
-</tbody></table>
-<p>在运行过程中，运行了两次 top(),让同一个 value 被处理了两次</p>
-<p>想要获取 top 元素，然后弹出这个操作，是原子的。</p>
-<p>解决办是</p>
-<ol>
-<li>传入一个引用</li>
-</ol>
-<p>传入 pop() 想要弹出的值，缺点是要构造一个临时变量</p>
-<ol start="2">
-<li><p>无异常抛出的拷贝构造函数或移动构造函数</p>
-</li>
-<li><p>返回弹出值的指针</p>
-</li>
-</ol>
-<p>指针的优势是自由拷贝，并且不会产生一场。缺点是返回一个指针需要对对象的内存分配进行管理。可以使用 std::shared_Ptr 管理。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;exception&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;mutex&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stack&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">empty_stack</span>:</span> <span class="built_in">std</span>::exception</span><br><span class="line">&#123;</span><br><span class="line">  <span class="function"><span class="keyword">const</span> <span class="keyword">char</span>* <span class="title">what</span><span class="params">()</span> <span class="keyword">const</span> <span class="title">throw</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="string">"empty stack!"</span>;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">threadsafe_stack</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">stack</span>&lt;T&gt; data;</span><br><span class="line">  <span class="keyword">mutable</span> <span class="built_in">std</span>::mutex m;</span><br><span class="line">  </span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  threadsafe_stack()</span><br><span class="line">	: data(<span class="built_in">std</span>::<span class="built_in">stack</span>&lt;T&gt;())&#123;&#125;</span><br><span class="line">  </span><br><span class="line">  threadsafe_stack(<span class="keyword">const</span> threadsafe_stack&amp; other)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; lock(other.m);</span><br><span class="line">    data = other.data; <span class="comment">// 1 在构造函数体中的执行拷贝</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  threadsafe_stack&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> threadsafe_stack&amp;) = <span class="keyword">delete</span>;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(T new_value)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; lock(m);</span><br><span class="line">    data.push(new_value);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;T&gt; pop()</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; lock(m);</span><br><span class="line">    <span class="keyword">if</span>(data.empty()) <span class="keyword">throw</span> empty_stack(); <span class="comment">// 在调用pop前，检查栈是否为空</span></span><br><span class="line">	</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;T&gt; <span class="function"><span class="keyword">const</span> <span class="title">res</span><span class="params">(<span class="built_in">std</span>::make_shared&lt;T&gt;(data.top()))</span></span>; <span class="comment">// 在修改堆栈前，分配出返回值</span></span><br><span class="line">    data.pop();</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">pop</span><span class="params">(T&amp; value)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; lock(m);</span><br><span class="line">    <span class="keyword">if</span>(data.empty()) <span class="keyword">throw</span> empty_stack();</span><br><span class="line">	</span><br><span class="line">    value=data.top();</span><br><span class="line">    data.pop();</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">bool</span> <span class="title">empty</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; lock(m);</span><br><span class="line">    <span class="keyword">return</span> data.empty();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h4 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h4><ol>
-<li>死锁的必要条件</li>
-</ol>
-<ul>
-<li>互斥</li>
-<li>非抢占</li>
-<li>占有并等待</li>
-<li>循环等待</li>
-</ul>
-<ol start="2">
-<li>解决死锁的方法:</li>
-</ol>
-<ul>
-<li>避免嵌套锁</li>
-<li>避免在持有锁时调用用户提供的代码</li>
-<li>使用固定顺序获取锁</li>
-<li>使用锁的层次结构 </li>
-</ul>
-<h3 id="同步并发操作"><a href="#同步并发操作" class="headerlink" title="同步并发操作"></a>同步并发操作</h3><p>不要用 sleep 等待</p>
-<h4 id="条件变量"><a href="#条件变量" class="headerlink" title="条件变量"></a>条件变量</h4><p>使用条件变量构建线程安全的队列</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;queue&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;memory&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;mutex&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;condition_variable&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">threadsafe_queue</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">  <span class="keyword">mutable</span> <span class="built_in">std</span>::mutex mut;  <span class="comment">// 1 互斥量必须是可变的 </span></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">queue</span>&lt;T&gt; data_queue;</span><br><span class="line">  <span class="built_in">std</span>::condition_variable data_cond;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">  threadsafe_queue()</span><br><span class="line">  &#123;&#125;</span><br><span class="line">  threadsafe_queue(threadsafe_queue <span class="keyword">const</span>&amp; other)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; lk(other.mut);</span><br><span class="line">    data_queue=other.data_queue;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">push</span><span class="params">(T new_value)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; lk(mut);</span><br><span class="line">    data_queue.push(new_value);</span><br><span class="line">    data_cond.notify_one();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">wait_and_pop</span><span class="params">(T&amp; value)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::unique_lock&lt;<span class="built_in">std</span>::mutex&gt; lk(mut);</span><br><span class="line">    data_cond.wait(lk,[<span class="keyword">this</span>]&#123;<span class="keyword">return</span> !data_queue.empty();&#125;);</span><br><span class="line">    value=data_queue.front();</span><br><span class="line">    data_queue.pop();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;T&gt; wait_and_pop()</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">std</span>::unique_lock&lt;<span class="built_in">std</span>::mutex&gt; lk(mut);</span><br><span class="line">    data_cond.wait(lk,[<span class="keyword">this</span>]&#123;<span class="keyword">return</span> !data_queue.empty();&#125;);</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;T&gt; res(<span class="built_in">std</span>::make_shared&lt;T&gt;(data_queue.front()));</span><br><span class="line">    data_queue.pop();</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">bool</span> <span class="title">try_pop</span><span class="params">(T&amp; value)</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; lk(mut);</span><br><span class="line">    <span class="keyword">if</span>(data_queue.empty())</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    value=data_queue.front();</span><br><span class="line">    data_queue.pop();</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;T&gt; try_pop()</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; lk(mut);</span><br><span class="line">    <span class="keyword">if</span>(data_queue.empty())</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;T&gt;();</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;T&gt; res(<span class="built_in">std</span>::make_shared&lt;T&gt;(data_queue.front()));</span><br><span class="line">    data_queue.pop();</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">bool</span> <span class="title">empty</span><span class="params">()</span> <span class="keyword">const</span></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line">    <span class="built_in">std</span>::lock_guard&lt;<span class="built_in">std</span>::mutex&gt; lk(mut);</span><br><span class="line">    <span class="keyword">return</span> data_queue.empty();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h3 id="C-内存模型和原子类型操作"><a href="#C-内存模型和原子类型操作" class="headerlink" title="C++ 内存模型和原子类型操作"></a>C++ 内存模型和原子类型操作</h3><p>具体的C++ 对象模型再开一个坑</p>
-<h4 id="内存模型基本规则"><a href="#内存模型基本规则" class="headerlink" title="内存模型基本规则"></a>内存模型基本规则</h4><ol>
-<li>每一个变量都是一个对象，包括其作为成员变量的对象</li>
-<li>每个对象至少占有一个内存位置</li>
-<li>基本类型都有确定的内存位置</li>
-<li>相邻位域是相同内存中的一部分</li>
-</ol>
-<h4 id="C-中的原子操作或原子类型"><a href="#C-中的原子操作或原子类型" class="headerlink" title="C++ 中的原子操作或原子类型"></a>C++ 中的原子操作或原子类型</h4><p>原子操作是一类不可分割的操作，要不完成，要么未完成。</p>
-<p>C++标准库提供基本原子类型，对于标准类型进行 typedef T，相关的原子类型就在原来的类型名前加上 atomic_的前缀：atomic_T。</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/07/01/C++多线程编程/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -601,7 +476,6 @@
           <p>3 月 25 入职, 6 月 26 正式离职，刚好在旷视实习三个月。记一下第一次实习的经历。</p>
 <p>旷厂的氛围总体来说是轻松愉快，部门的人都很好，特别是靖入大哥给了我很多帮助，跟着他也学了很多东西。第一周就是配环境。配环境基本就是配置容器环境。第一次接触 docker 和 kubernetes，摸索了很久。</p>
 <p>之后就是学习 kubernetes 组件，重点是 scheduler。还有学习 GO 的基本用法。之后工作就慢慢进入正轨，可以接一些需求了。</p>
-<p>重构 scheduler 的工作一直在关注，很可惜在这三个月没有完整跟进这一个项目。三个月从产品计划到上线完整跟进的只有多租户开发这一个项目，其它都是函数小修小补。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/06/26/矿厂三个月/#more" rel="contents">
@@ -1563,147 +1437,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/01/HTTP详解/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="h3m">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Channels">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/03/01/HTTP详解/" itemprop="url">HTTP 协议详解</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-01T00:00:00+08:00">
-                2019-03-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/HTTP/" itemprop="url" rel="index">
-                    <span itemprop="name">HTTP</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h3 id="Web-基础"><a href="#Web-基础" class="headerlink" title="Web 基础"></a>Web 基础</h3>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/01/TCP协议详解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1884,7 +1617,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1895,7 +1628,7 @@
               
               <div class="site-state-item site-state-categories">
                 
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">分类</span>
                 
               </div>
@@ -1906,7 +1639,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">标签</span>
                 
               </div>
