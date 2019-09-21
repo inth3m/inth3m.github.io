@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="kubernetes,">
+  <meta name="keywords" content="实习,">
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="1期末考试不想复习，先开一个坑。  Kubernetes 是 Google 基于 Borg 开源的容器编排调度引擎。 Kubernetes 架构Kubernetes 主要由以下几个核心组件组成  etcd: 保存了整个集群的状态 apiserver: 提供了资源操作的唯一入口，并提供认证，授权，访问控制，AIPI 注册和发现等机制 controller manager: 负责维护集群状态，比如故障">
-<meta name="keywords" content="kubernetes">
+<meta name="description" content="NAT 的工作模型和特点">
+<meta name="keywords" content="实习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="kubernetes 原理">
-<meta property="og:url" content="http://yoursite.com/2019/06/22/kubernetes/index.html">
+<meta property="og:title" content="P2P基本原理">
+<meta property="og:url" content="http://yoursite.com/2019/09/21/P2P基本原理/index.html">
 <meta property="og:site_name" content="Channels">
-<meta property="og:description" content="1期末考试不想复习，先开一个坑。  Kubernetes 是 Google 基于 Borg 开源的容器编排调度引擎。 Kubernetes 架构Kubernetes 主要由以下几个核心组件组成  etcd: 保存了整个集群的状态 apiserver: 提供了资源操作的唯一入口，并提供认证，授权，访问控制，AIPI 注册和发现等机制 controller manager: 负责维护集群状态，比如故障">
+<meta property="og:description" content="NAT 的工作模型和特点">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-23T11:48:49.871Z">
+<meta property="og:updated_time" content="2019-09-21T15:41:59.983Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="kubernetes 原理">
-<meta name="twitter:description" content="1期末考试不想复习，先开一个坑。  Kubernetes 是 Google 基于 Borg 开源的容器编排调度引擎。 Kubernetes 架构Kubernetes 主要由以下几个核心组件组成  etcd: 保存了整个集群的状态 apiserver: 提供了资源操作的唯一入口，并提供认证，授权，访问控制，AIPI 注册和发现等机制 controller manager: 负责维护集群状态，比如故障">
+<meta name="twitter:title" content="P2P基本原理">
+<meta name="twitter:description" content="NAT 的工作模型和特点">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/06/22/kubernetes/">
+  <link rel="canonical" href="http://yoursite.com/2019/09/21/P2P基本原理/">
 
 
 
 
 
-  <title>kubernetes 原理 | Channels</title>
+  <title>P2P基本原理 | Channels</title>
   
 
 
@@ -233,7 +233,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/22/kubernetes/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/21/P2P基本原理/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="h3m">
@@ -250,7 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">kubernetes 原理</h1>
+          <h1 class="post-title" itemprop="name headline">P2P基本原理</h1>
         
 
         <div class="post-meta">
@@ -262,8 +262,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-22T00:00:00+08:00">
-                2019-06-22
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-21T00:00:00+08:00">
+                2019-09-21
               </time>
             
 
@@ -285,8 +285,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/kubernetes/" itemprop="url" rel="index">
-                    <span itemprop="name">kubernetes</span>
+                  <a href="/categories/实习/" itemprop="url" rel="index">
+                    <span itemprop="name">实习</span>
                   </a>
                 </span>
 
@@ -322,22 +322,7 @@
       
 
       
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">期末考试不想复习，先开一个坑。</span><br></pre></td></tr></table></figure>
-
-<p>Kubernetes 是 Google 基于 Borg 开源的容器编排调度引擎。</p>
-<h2 id="Kubernetes-架构"><a href="#Kubernetes-架构" class="headerlink" title="Kubernetes 架构"></a>Kubernetes 架构</h2><p>Kubernetes 主要由以下几个核心组件组成</p>
-<ul>
-<li>etcd: 保存了整个集群的状态</li>
-<li>apiserver: 提供了资源操作的唯一入口，并提供认证，授权，访问控制，AIPI 注册和发现等机制</li>
-<li>controller manager: 负责维护集群状态，比如故障检测，自动扩展，滚动更新</li>
-<li>scheduler: 负责资源的调度，单招预定的调度策略将 Pod 调度到相应的机器上</li>
-<li>kubelet: 负责维护容器的生命周期，同时也负责 Volume 和 网络的管理</li>
-<li>Contanner runtime: 负责镜像管理以及 Pod 和容器的真正运行</li>
-<li>kube-proxy: 为 Service 提供 cluster 内部的服务发现和负载均衡</li>
-</ul>
-<a id="more"></a>
-<p>整体架构图</p>
-<h3 id="设计理念"><a href="#设计理念" class="headerlink" title="设计理念"></a>设计理念</h3><h4 id="分层架构"><a href="#分层架构" class="headerlink" title="分层架构"></a>分层架构</h4>
+        <h2 id="NAT-的工作模型和特点"><a href="#NAT-的工作模型和特点" class="headerlink" title="NAT 的工作模型和特点"></a>NAT 的工作模型和特点</h2>
       
     </div>
     
@@ -354,7 +339,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
+            <a href="/tags/实习/" rel="tag"># 实习</a>
           
         </div>
       
@@ -367,8 +352,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/06/17/GO踩坑/" rel="next" title="Golang 踩坑和原理">
-                <i class="fa fa-chevron-left"></i> Golang 踩坑和原理
+              <a href="/2019/07/01/C++多线程编程/" rel="next" title="C++ 多线程编程">
+                <i class="fa fa-chevron-left"></i> C++ 多线程编程
               </a>
             
           </div>
@@ -376,10 +361,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/06/26/矿厂三个月/" rel="prev" title="旷厂三个月">
-                旷厂三个月 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -511,7 +492,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kubernetes-架构"><span class="nav-number">1.</span> <span class="nav-text">Kubernetes 架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#设计理念"><span class="nav-number">1.1.</span> <span class="nav-text">设计理念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分层架构"><span class="nav-number">1.1.1.</span> <span class="nav-text">分层架构</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#NAT-的工作模型和特点"><span class="nav-number">1.</span> <span class="nav-text">NAT 的工作模型和特点</span></a></li></ol></div>
             
 
           </div>
